@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Team</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Staff Team</h1>
+    <div id="staff-container">
+        <!-- Staff členové se zde dynamicky zobrazí -->
+    </div>
+
+      <!-- Navigace -->
+      <nav>
+        <a href="index.html">Domů</a>
+        <a href="onas.html">O nás</a>
+        <a href="pravidla.html">Pravidla</a>
+        <a href="staff.html">Staff Team</a>
+    </nav>
+
+    <header>
+        <div class="social-icons">
+            <a href="https://www.tiktok.com/@neondreamsroleplay" target="_blank">
+                <img src="images/tiktok-logo.png" alt="TikTok" class="social-icon">
+            </a>
+            <a href="https://www.instagram.com/tvujprofil" target="_blank">
+                <img src="images/instagram-logo.png" alt="Instagram" class="social-icon">
+            </a>
+        </div>
+    </header>
+
+    <script>
+        // Funkce pro načtení členů staff týmu
+        async function fetchStaff() {
+            const response = await fetch('/staff');
+            const staffMembers = await response.json();
+
+            const staffContainer = document.getElementById('staff-container');
+
+            staffMembers.forEach(member => {
+                // Vytvoříme div pro každého člena staffu
+                const memberDiv = document.createElement('div');
+                memberDiv.className = 'staff-member';
+
+                // Profilový obrázek
+                const avatar = document.createElement('img');
+                avatar.src = member.avatar;
+                avatar.alt = member.username;
+                avatar.className = 'avatar';
+
+                // Jméno uživatele
+                const username = document.createElement('h3');
+                username.textContent = member.username;
+
+                // Role uživatele (po kliknutí)
+                const roles = document.createElement('p');
+                roles.textContent = 'Zobrazit role';
+                roles.className = 'roles';
+                roles.style.cursor = 'pointer';
+                roles.onclick = () => {
+                    roles.textContent = 'Role: ' + member.roles.join(', ');
+                };
+
+                // Přidáme do divu
+                memberDiv.appendChild(avatar);
+                memberDiv.appendChild(username);
+                memberDiv.appendChild(roles);
+
+                // Přidáme celý div do staff-containeru
+                staffContainer.appendChild(memberDiv);
+            });
+        }
+
+        // Načtení dat po načtení stránky
+        window.onload = fetchStaff;
+    </script>
+
+      <!-- Sekce Staff Team -->
+      <section>
+        <h2>Seznam členů našeho týmu</h2>
+        <ul>
+            <li>RscY - Project Management</li>
+            <li>Suld1k - Project Management</li>
+            <li>Oregano - Project Management</li>
+        </ul>
+    </section>
+
+    <!-- Patička -->
+    <footer>
+        <p>© 2024 NRP.cz Všechna práva vyhrazena.</p>
+    </footer>
+
+</body>
+</html>
+
